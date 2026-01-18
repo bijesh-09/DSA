@@ -1,0 +1,10 @@
+# Ignore VS Code configuration folder
+.vscode/
+
+# Ignore compiled executable files
+*.exe
+
+# Optional: Ignore other common C build artifacts
+*.o
+*.obj
+*.out
