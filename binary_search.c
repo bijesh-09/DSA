@@ -1,24 +1,64 @@
-#include<stdio.h>
+#include <stdio.h>
 
-int binarySearch(int arr[], int size, int target) {
+int binary_search(int arr[], int size, int target)
+{
     int left = 0;
     int right = size - 1;
-
-    while (left <= right) {
+    while (left <= right)
+    {
         int mid = left + (right - left) / 2;
-
-        // Check if target is present at mid
-        if (arr[mid] == target) {
-            return mid; // Target found
+        if (arr[mid] == target)
+        {
+            return mid;
         }
-        // If target is greater, ignore left half
-        else if (arr[mid] < target) {
+        else if (target > arr[mid])
+        {
             left = mid + 1;
         }
-        // If target is smaller, ignore right half
-        else {
+        else
+        {
             right = mid - 1;
         }
     }
-    return -1; // Target not found
+    return -1;
+}
+
+int bisearch_rec(int arr[], int target, int left, int right){
+    if (left > right)
+    {
+        return -1;
+    }
+    else{
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == target)
+        {
+            return mid;
+        }
+        else if (target > arr[mid])
+        {
+            return bisearch_rec(arr, target, mid+1, right);
+        }
+        else
+        {
+            return bisearch_rec(arr, target, left, mid-1);
+        }
+        
+    }
+}
+
+int main()
+{
+
+    int arr[] = {2, 3, 4, 10, 40};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int target = 10;
+    int result = binary_search(arr, size, target);
+    (result == -1) ? printf("Element is not present in array")
+                   : printf("Element is present at index %d", result);
+
+    printf("\nUsing Recursive Binary Search:\n");
+    int rec_result = bisearch_rec(arr, target, 0, size - 1);
+    (rec_result == -1) ? printf("Element is not present in array")
+                       : printf("Element is present at index %d", rec_result);
+    return 0;
 }

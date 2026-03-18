@@ -70,11 +70,17 @@ void insert(int data){
 void priorityQueueDisplay(){
     if (!isEmpty())
     {
+        printf("Priority Queue elements in ascending order of priority: ");
+        for (int i = itemCount-1; i>=0 ; i--)
+        {
+            printf("%d ", priorityQueue[i]);
+        }
         printf("\nPriority Queue elements actual arrangement: ");
         for (int i = 0; i < itemCount; i++)
         {
             printf("%d ", priorityQueue[i]);
         }
+        
         printf("\n");
         printf("\n");
     }
@@ -93,12 +99,6 @@ int main(){
     insert(20);
 
     priorityQueueDisplay();
-    
-    printf("Priority Queue in Ascending Order:\n");
-    while (!isEmpty())
-    {
-        delete();
-    }
     
     
     return 0;

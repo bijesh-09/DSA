@@ -59,49 +59,46 @@ int main()
 {
     struct Node *head = NULL;
     int n;
-    
+
     printf("Enter the size of the list: ");
     scanf("%d", &n);
-    
+
     create_random_list(&head, n);
     displayList(head);
-    
+
     // struct Node *temp = head;
     // head = head->next;
     // free(temp);
     // displayList(head);
     // while (temp->next != NULL)
     // {
-        //     struct Node *toFree = temp;
-        //     temp = temp->next;
-        // }
-        // struct Node *addedLastNode = (struct Node *)malloc(sizeof(struct Node));
-        // addedLastNode->next = NULL;
-        // addedLastNode->data = 3;
-        // temp->next = addedLastNode;
-        
-        // displayList(head);
-        
-        // while (temp->next!=NULL)
+    //     struct Node *toFree = temp;
+    //     temp = temp->next;
+    // }
+    // struct Node *addedLastNode = (struct Node *)malloc(sizeof(struct Node));
+    // addedLastNode->next = NULL;
+    // addedLastNode->data = 3;
+    // temp->next = addedLastNode;
+
+    // displayList(head);
+
+    // while (temp->next!=NULL)
     // {
-        //     struct Node *afterThirdNode = (struct Node *)malloc(sizeof(struct Node));
-        //     afterThirdNode->data = 3;
-        //     afterThirdNode->next = temp->next;
-        //     temp->next = afterThirdNode;
-        // }
-        // displayList(head);
-        
-        
-        struct Node *temp = head;
-    while (temp->next->next != NULL){
-        temp = temp->next ;
-        
-    }
-    free(temp->next);
-    temp->next = NULL;
-    displayList(head);
-        
-        
+    //     struct Node *afterThirdNode = (struct Node *)malloc(sizeof(struct Node));
+    //     afterThirdNode->data = 3;
+    //     afterThirdNode->next = temp->next;
+    //     temp->next = afterThirdNode;
+    // }
+    // displayList(head);
+
+    // struct Node *temp = head;
+    // while (temp->next->next != NULL)
+    // {
+    //     temp = temp->next;
+    // }
+    // free(temp->next);
+    // temp->next = NULL;
+    // displayList(head);
 
     return 0;
 }

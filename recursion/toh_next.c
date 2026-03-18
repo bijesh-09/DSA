@@ -28,7 +28,7 @@ int main() {
     scanf("%d", &n);
 
     // Calling with rods labeled 'C' (Dest), 'A' (Src), 'B' (Aux)
-    toh(n, 'A', 'B', 'C');
+    toh(n, 'C', 'A', 'B');
 
     printf("\nTotal steps: %d\n", count);
     return 0;

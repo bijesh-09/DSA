@@ -38,13 +38,13 @@ void insertAtEnd(struct node *head)
     }
     else
     {
-        struct node *endNode = malloc(sizeof(struct node));
+        struct node *endNode = (struct node*)malloc(sizeof(struct node));
         printf("Enter data to insert at the end: ");
         int endValue;
         scanf("%d", &endValue);
         endNode->data = endValue;
         endNode->next = NULL;
-        struct node *temp = malloc(sizeof(struct node));
+        struct node *temp = (struct node*)malloc(sizeof(struct node));
         temp = head;
         while (temp->next != NULL)
         {
@@ -67,6 +67,7 @@ void insertAtEnd(struct node *head)
 //      frontNode->data = frontValue;
 //      frontNode->next = *head;//using *head cuz "head" is a local pointer here and it wont affect the main() head. so we directly mainpulate the main() head which is *head
 //      *head = frontNode;
+//      numberOfNodes++;
 //      displayList(*head);
 //  }
 
@@ -83,7 +84,7 @@ struct node *insertAtFront(struct node *head)
     }
     else
     {
-        struct node *frontNode = malloc(sizeof(struct node));
+        struct node *frontNode = (struct node*)malloc(sizeof(struct node));
         printf("Enter data to insert at the front: ");
         int frontValue;
         scanf("%d", &frontValue);
@@ -123,13 +124,13 @@ void insertAtArbitraryPosition(struct node *head)
     else
     {
         printf("Inserting %d at position %d...\n", value, insertPosition);
-        struct node *arbitraryNode = malloc(sizeof(struct node));
+        struct node *arbitraryNode = (struct node*)malloc(sizeof(struct node));
         arbitraryNode->data = value;
         arbitraryNode->next = NULL;
         // temp is the traversing pointer
-        struct node *temp = malloc(sizeof(struct node));
+        struct node *temp = (struct node*)malloc(sizeof(struct node));
         temp = head;
-        for (int i = 0; i < insertPosition - 2; i++)
+        for (int i = 0; i < insertPosition - 2; i++) //if insertPosition is 2, then for loop wont run, so temp will at head, and ofc thats what we need to perform insertion at 2nd position of the list
         {
             temp = temp->next;
         }
@@ -181,6 +182,9 @@ struct node *deleteAtFront(struct node *head)
 //         //only one node in the list
 //         printf("Deleting the only node in the list...\n");
 //         free(head);
+//         free(lastNodeTraverser);
+//         free(secondLastNode);
+//         numberOfNodes--;
 //         return NULL;
 //     }
 //     else{
@@ -272,11 +276,47 @@ struct node* reverseList(struct node *head)
     return head;
 
 }
+void searchNode(struct node* head){
+    int searchValue , searchedCount = 0 ;
+    
+    printf("Enter value to search the node in the linked list: ");
+    scanf("%d", &searchValue);
+    struct node* temp = head;
+    printf("The node(s) with %d is being searched:\n",searchValue);
+    while (temp->next != NULL)
+    {
+        if (temp->data == searchValue)
+        {
+            searchedCount++;
+        }
+        temp = temp->next;
+    }
+    if (searchedCount == 0)
+    {
+        printf("Value %d not found in the linked list.\n", searchValue);
+    }
+    else
+    {
+        printf("Value %d found %d time(s) in the linked list.\n", searchValue, searchedCount);
+    }
+
+}
+
+void destroyList(struct node* head){
+    printf("Destroying the linked list...\n");
+    while (head != NULL)
+    {
+        struct node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+    displayList(head);
+}
 
 int main()
 {
-    struct node *head = malloc(sizeof(struct node));
-    struct node *ptr = malloc(sizeof(struct node));
+    struct node *head = (struct node*)malloc(sizeof(struct node));
+    struct node *ptr = NULL;
 
     // adding datas to linked list
     printf("How many no. of data: ");
@@ -292,7 +332,7 @@ int main()
         int value;
         printf("Enter data %d: ", i + 1);
         scanf("%d", &value);
-        struct node *current = malloc(sizeof(struct node));
+        struct node *current = (struct node*)malloc(sizeof(struct node));
         if (i == 0)
         {
             head->data = value;
@@ -316,6 +356,10 @@ int main()
     // inserting at the front and displaying updated linked list
     //  insertAtFront(&head);//here address of head is passed to modify head pointer cuz head is changing when we insert at front
 
+    //for method1 of insertion at front, we have to provide &head , so that the stuct node** holds the actual address of main head, and the main head will be modified in the called fn due to the call by reference method
+    // insertAtFront(&head);
+
+    //for method-2 of insertion at front
     head = insertAtFront(head); // updating head pointer with returned updated head pointer
     displayList(head);
 
@@ -332,6 +376,10 @@ int main()
 
     head = reverseList(head);
     displayList(head);
+
+    searchNode(head);
+
+    destroyList(head);
 
     free(head);
     free(ptr);
