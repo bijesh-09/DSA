@@ -55,6 +55,193 @@ void insertFront(struct node **loaclhead)
     displayList(*loaclhead);
 }
 
+void insertAfter(struct node** localhead){
+    
+    int position;
+    printf("Enter the position where u want to insert data: ");
+    scanf("%d", &position);
+    
+    struct node* temp = *localhead;
+
+    if (*localhead == NULL)
+    {
+        printf("List is empty.\n");
+        return;
+    }
+
+    if (position==1)
+    {
+        insertFront(localhead);
+        return;
+    }
+    
+    for (int i = 0; i <= position-3; i++)
+    {
+        temp = temp->next; //by the end of the loop temp arrives at the prevnode of designated position
+        //this logic helps cuz if the position is null then also we will be able to insert after the last node   
+    }
+
+    struct node* prevNode = temp;
+
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    int newNodeValue;
+    printf("Enter data to insert: ");
+    scanf("%d", &newNodeValue);
+
+    //logic for inserting newNode after prevNode
+
+    newNode->data = newNodeValue;
+    //setting up next of prev node and newNode
+    newNode->next = prevNode->next;
+    prevNode->next = newNode;
+
+    //setting up prev of newNode and next node
+    newNode->prev = prevNode;
+    if (newNode->next != NULL) // if newnode next is null, then newNode->next->prev is invalid
+    {
+        newNode->next->prev = newNode;
+    }
+    numberOfNodes++;
+    displayList(*localhead);   
+}
+
+void insertEnd(struct node** localhead){
+    
+    if (localhead == NULL)
+    {
+        printf("List is empty.\n");
+        return;
+    }
+    
+    int endValue;
+    printf("Enter data to insert at the end:");
+    scanf("%d", &endValue);
+
+    struct node* endNode = (struct node*)malloc(sizeof(struct node));
+
+    struct node* temp = *localhead;
+
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+
+    endNode->data = endValue;
+    endNode->next = NULL;
+    endNode->prev = temp;
+    temp->next = endNode;
+    
+    numberOfNodes++;
+    displayList(*localhead);
+}
+
+void deleteFront(struct node** localhead){
+
+    if (*localhead == NULL)
+    {
+        printf("List is empty.\n");
+        return;
+    }
+
+    struct node* temp = *localhead;
+
+    /*
+    Note: dont do this: if ( (temp->prev && temp->next) == NULL )
+    cuz
+    temp->prev && temp->next is a logical AND that returns 0 or 1 (not a pointer)
+    So this compares an integer to NULL, which triggers the warning
+    More importantly, the logic is inverted — for the front node, temp->prev is always NULL, so (NULL && temp->next) equals 0, making the condition TRUE even when the list has more than 1 node!
+    */
+    if ( temp->prev == NULL && temp->next == NULL )
+    {
+        *localhead = NULL;
+        free(temp);
+        numberOfNodes--;
+        printf("Deleting the only node in the list.\n");
+        displayList(*localhead);
+        return;
+    }
+
+    printf("Deleting front node with value %d...\n", temp->data);
+    *localhead = temp->next;
+    (*localhead)->prev = NULL;
+    free(temp);
+    numberOfNodes--;
+    displayList(*localhead);
+}
+void deleteEnd(struct node** localhead){
+
+    if (*localhead == NULL)
+    {
+        printf("List is empty.\n");
+        return;
+    }
+
+    struct node* temp = *localhead;
+
+    if ( temp->prev == NULL && temp->next == NULL )
+    {
+        *localhead = NULL;
+        free(temp);
+        numberOfNodes--;
+        printf("Deleting the only node in the list.\n");
+        displayList(*localhead);
+        return;
+    }
+
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    
+    printf("Deleting end node with value %d...\n", temp->data);
+    temp->prev->next = NULL;
+    free(temp);
+    numberOfNodes--;
+    displayList(*localhead);
+}
+
+void deleteSpecificNode(struct node** localhead){
+    if (*localhead == NULL )
+    {
+        printf("List is empty.\n");
+        return;
+    }
+
+    int specificNodeValue;
+    printf("Enter the value of the node to delete: ");  
+    scanf("%d", &specificNodeValue);
+
+    struct node* temp = *localhead;
+
+    while (temp->next != NULL)
+    {
+        if (temp->data == specificNodeValue)
+        {
+            break;
+        }
+        temp = temp->next;
+    }
+    if (temp == *localhead)
+    {
+        deleteFront(localhead); //deletefront and deleteend fns expects double pointer, sso we need to pass the actual addr of main head which is localhead, simply localhead = &mainhead , *localhead = &1stnode
+        return;
+    }
+    else if(temp->next == NULL){
+        deleteEnd(localhead);
+        return;
+    }
+    else{
+        printf("Deleting the specified node with data value: %d...\n",temp->data);
+        temp->prev->next = temp->next;
+        temp->next->prev = temp->prev;
+        free(temp);
+    }
+    numberOfNodes--;
+    displayList(*localhead);
+    
+}
+
 int main()
 {
     /*
@@ -102,5 +289,15 @@ int main()
 
     insertFront(&head);
 
+    insertAfter(&head);
+
+    insertEnd(&head);
+
+    deleteFront(&head);
+
+    deleteEnd(&head);
+
+    deleteSpecificNode(&head);
+    
     return 0;
 }
