@@ -52,13 +52,15 @@ int main()
     int arr[] = {2, 3, 4, 10, 40};
     int size = sizeof(arr) / sizeof(arr[0]);
     int target = 10;
-    int result = binary_search(arr, size, target);
-    (result == -1) ? printf("Element is not present in array")
-                   : printf("Element is present at index %d", result);
+
+    int resultIndex = binary_search(arr, size, target);
+    printf("\nUsing Iterative Binary Search:\n");
+    (resultIndex == -1) ? printf("Element is not present in array")
+                   : printf("Element is %d and it is present at index %d", arr[resultIndex], resultIndex);
 
     printf("\nUsing Recursive Binary Search:\n");
-    int rec_result = bisearch_rec(arr, target, 0, size - 1);
-    (rec_result == -1) ? printf("Element is not present in array")
-                       : printf("Element is present at index %d", rec_result);
+    int rec_resultIdx = bisearch_rec(arr, target, 0, size - 1);
+    (rec_resultIdx == -1) ? printf("Element is not present in array")
+                          : printf("Element is %d and it is present at index %d", arr[rec_resultIdx], rec_resultIdx);
     return 0;
 }
